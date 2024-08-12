@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Button from "./components/Button";
+import TodoHeader from "./components/TodoHeader";
+import TodoItem from "./components/TodoList";
 
 function App() {
+  function handleClick() {
+    alert("Button Clicked!");
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div>
+        <TodoHeader />
+      </div>
+      <div>
+        <ul>
+          <TodoItem value="Select each" />
+          <TodoItem value="Update" />
+          <TodoItem value="Delete" />
+          <TodoItem value="Tag" />
+        </ul>
+        <form>
+          <input
+            type="text"
+            name="myInput"
+            placeholder="Add new Task..."
+            required
+          />
+        </form>
+        <Button value="+ Save Task" onButtonClick={handleClick} />
+        <Button value="- Remove Task" onButtonClick={handleClick} />
+        <Button value="Toggle Done" onButtonClick={handleClick} />
+      </div>
+    </>
   );
 }
 
