@@ -1,7 +1,7 @@
 import "./App.css";
 import Button from "./components/Button";
 import TodoHeader from "./components/TodoHeader";
-import TodoItem from "./components/TodoList";
+import TodoItem from "./components/TodoItem";
 
 function App() {
   function handleClick() {
