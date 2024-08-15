@@ -1,8 +1,8 @@
-function TodoItem({ value }) {
+function TodoItem({ children, onChange = () => {}, checked = false }) {
   return (
     <li>
-      <input type="checkbox" />
-      {value}
+      <input type="checkbox" onChange={onChange} checked={checked} />
+      {children}
     </li>
   );
 }
