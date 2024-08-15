@@ -27,8 +27,6 @@ const todoList = [
   },
 ];
 
-let idCounter = 5;
-
 function App() {
   const [list, setList] = useState(todoList);
   const [bin, updateBin] = useState([3]);
@@ -40,45 +38,45 @@ function App() {
     }
 
     // Use Array Find Methods: findIndex().
-    return todoList.findIndex(checkItemIndex);
+    return list.findIndex(checkItemIndex);
   }
 
   // Function Update requires 2 Parameters; Select ID and a new Description.
   function updateTodoItem(id, newDescription) {
     const index = findTodoIndex(id);
-    const todoItem = todoList[index];
-    todoItem.description = newDescription;
+    list[index].description = newDescription;
+    setList([...list]);
   }
 
   // Function Delete requires 1 Parameter: Select id.
-  function deleteTodoItem(id) {
-    const index = findTodoIndex(id);
-    todoList.splice(index, 1); // before splicing use array function called "find index" method.
-  }
+  // function deleteTodoItem(id) {
+  //   const index = findTodoIndex(id);
+  //   todoList.splice(index, 1); // before splicing use array function called "find index" method.
+  // }
 
   // Function Toggle done requires 1 Parameters: Select Index/id
-  function toggleDone(id) {
-    const index = findTodoIndex(id);
-    const todoItem = todoList[index];
-    todoItem.done = !todoItem.done;
-    console.log(todoItem);
-  }
+  // function toggleDone(id) {
+  //   const index = findTodoIndex(id);
+  //   const todoItem = todoList[index];
+  //   todoItem.done = !todoItem.done;
+  //   console.log(todoItem);
+  // }
 
   // Function Add Task requires 1 Parameter: Add new Description
-  function addTodoItem(description) {
-    const newTodoItem = {
-      description: description,
-      done: false,
-      id: idCounter, // Assign the current ID
-    };
-    todoList.push(newTodoItem);
-    idCounter++;
-  }
+  // function addTodoItem(description) {
+  //   const newTodoItem = {
+  //     description: description,
+  //     done: false,
+  //     id: idCounter, // Assign the current ID
+  //   };
+  //   todoList.push(newTodoItem);
+  //   idCounter++;
+  // }
 
   // TO DO TASK - Select item.
-  function handleSelectItemClick() {
-    alert("Checkbox ticked!");
-  }
+  // function handleSelectItemClick() {
+  //   alert("Checkbox ticked!");
+  // }
 
   // Function Toggle requires 1 Parameter: Select ID.
   function toggleSelectedTodoItems(todoID) {
@@ -92,19 +90,19 @@ function App() {
   }
 
   // Function for multiple delete.
-  function emptyBin() {
-    while (bin.length !== 0) {
-      const todoID = bin.pop();
-      deleteTodoItem(todoID);
-    }
-  }
+  // function emptyBin() {
+  //   while (bin.length !== 0) {
+  //     const todoID = bin.pop();
+  //     deleteTodoItem(todoID);
+  //   }
+  // }
 
-  // Function for toggle done for selected items.
-  function toggleDoneBin() {
-    for (let id = bin.length; id >= 1; id--) {
-      toggleDone(id);
-    }
-  }
+  // // Function for toggle done for selected items.
+  // function toggleDoneBin() {
+  //   for (let id = bin.length; id >= 1; id--) {
+  //     toggleDone(id);
+  //   }
+  // }
 
   // TO DO TASK - Handla last priority for this is the hardest task.
   function handleAddTaskClick() {
@@ -124,7 +122,7 @@ function App() {
     setList([...list]);
   }
 
-  // TO DO TASK - Finish other buttons function.
+  // TODO: Finish other buttons function.
   function handleClick() {
     alert("Button Clicked!");
   }
@@ -140,11 +138,16 @@ function App() {
             return (
               <TodoItem
                 key={index}
-                // Can be optimized.
-                onChange={() => toggleSelectedTodoItems(todoItem.id)}
+                // TODO: Can be optimized.
+                onCheckboxChange={(e) => {
+                  toggleSelectedTodoItems(todoItem.id);
+                }}
+                onTextChange={(e) => {
+                  updateTodoItem(todoItem.id, e.target.value);
+                }}
                 checked={bin.includes(todoItem.id)}
               >
-                <span contentEditable={true}>{todoItem.description}</span>
+                {todoItem.description}
               </TodoItem>
             );
           })}

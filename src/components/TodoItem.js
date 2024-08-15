@@ -1,8 +1,24 @@
-function TodoItem({ children, onChange = () => {}, checked = false }) {
+function TodoItem({
+  children,
+  onCheckboxChange = () => {},
+  checked = false,
+  onTextChange = () => {},
+}) {
+  function handleKeyDown(e) {
+    if (e.code === "Enter" || e.code === "NumpadEnter") {
+      e.target.blur();
+    }
+  }
+
   return (
     <li>
-      <input type="checkbox" onChange={onChange} checked={checked} />
-      {children}
+      <input type="checkbox" onChange={onCheckboxChange} checked={checked} />
+      <input
+        type="text"
+        onChange={onTextChange}
+        value={children}
+        onKeyDown={handleKeyDown}
+      />
     </li>
   );
 }
