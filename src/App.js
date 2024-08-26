@@ -8,28 +8,36 @@ const todoList = [
   {
     description: "select each",
     done: false,
-    id: 1, // Find out delete based on ID instead of index.
+    id: 6, // Find out delete based on ID instead of index.
   },
   {
     description: "update",
     done: false,
-    id: 2,
+    id: 7,
   },
   {
     description: "delete",
     done: false,
-    id: 3,
+    id: 9,
   },
   {
     description: "tag",
     done: false,
-    id: 4,
+    id: 8,
   },
 ];
 
+// Sort Descending value of ID.
+// let idCounter = todoList.sort((a, b) => b.id - a.id)[0].id + 1;
+let idCounter =
+  todoList.reduce((max, item) => {
+    return item.id > max ? item.id : max;
+  }, 0) + 1;
+
 function App() {
   const [list, setList] = useState(todoList);
-  const [bin, updateBin] = useState([3]);
+  const [bin, updateBin] = useState([]);
+  const [input, setInput] = useState("");
 
   // Matches the index of todoList vs bin via ID.
   function findTodoIndex(id) {
@@ -49,34 +57,19 @@ function App() {
   }
 
   // Function Delete requires 1 Parameter: Select id.
-  // function deleteTodoItem(id) {
-  //   const index = findTodoIndex(id);
-  //   todoList.splice(index, 1); // before splicing use array function called "find index" method.
-  // }
+  function deleteTodoItem(id) {
+    const index = findTodoIndex(id);
+    list.splice(index, 1); // before splicing use array function called "find index" method.
+    setList([...list]);
+  }
 
   // Function Toggle done requires 1 Parameters: Select Index/id
-  // function toggleDone(id) {
-  //   const index = findTodoIndex(id);
-  //   const todoItem = todoList[index];
-  //   todoItem.done = !todoItem.done;
-  //   console.log(todoItem);
-  // }
-
-  // Function Add Task requires 1 Parameter: Add new Description
-  // function addTodoItem(description) {
-  //   const newTodoItem = {
-  //     description: description,
-  //     done: false,
-  //     id: idCounter, // Assign the current ID
-  //   };
-  //   todoList.push(newTodoItem);
-  //   idCounter++;
-  // }
-
-  // TO DO TASK - Select item.
-  // function handleSelectItemClick() {
-  //   alert("Checkbox ticked!");
-  // }
+  function toggleDone(id) {
+    const index = findTodoIndex(id);
+    const todoItem = list[index];
+    todoItem.done = !todoItem.done;
+    setList([...list]);
+  }
 
   // Function Toggle requires 1 Parameter: Select ID.
   function toggleSelectedTodoItems(todoID) {
@@ -90,41 +83,50 @@ function App() {
   }
 
   // Function for multiple delete.
-  // function emptyBin() {
-  //   while (bin.length !== 0) {
-  //     const todoID = bin.pop();
-  //     deleteTodoItem(todoID);
-  //   }
-  // }
+  function handleEmptyBinClick() {
+    while (bin.length !== 0) {
+      const todoID = bin.pop();
+      deleteTodoItem(todoID);
+    }
+  }
 
   // // Function for toggle done for selected items.
-  // function toggleDoneBin() {
-  //   for (let id = bin.length; id >= 1; id--) {
-  //     toggleDone(id);
-  //   }
-  // }
+  function handleToggleDoneBinClick() {
+    for (let index = 0; index < bin.length; index++) {
+      const id = bin[index];
+      toggleDone(id);
+    }
 
-  // TO DO TASK - Handla last priority for this is the hardest task.
-  function handleAddTaskClick() {
-    list.push({
-      description: "eat",
+    // bin.forEach(toggleDone);
+  }
+
+  // Function Add task button.
+  function addTodoItem(description) {
+    const newTodoItem = {
+      description: description,
       done: false,
-      id: list.length + 1,
-    });
-    console.log(list);
-    // Rerenders the webpage.
+      id: idCounter,
+    };
+
+    list.push(newTodoItem);
+    idCounter++;
     setList([...list]);
   }
 
-  // TO DO TASK - Delete task item.
-  function handleRemoveTaskClick() {
-    list.splice(-1);
-    setList([...list]);
+  // Handle keyDown "Enter"
+  function handleKeyDownAddTask(e) {
+    if (e.key === "Enter") {
+      addTodoItem(input);
+      setInput("");
+      e.target.blur();
+    }
   }
 
-  // TODO: Finish other buttons function.
-  function handleClick() {
-    alert("Button Clicked!");
+  // Click Handler function is for the last priority for this is the hardest task.
+  function handleAddTaskClick(e) {
+    addTodoItem(input);
+    setInput("");
+    e.target.blur();
   }
 
   return (
@@ -152,17 +154,23 @@ function App() {
             );
           })}
         </ul>
-        <form>
+        <div>
           <input
+            value={input}
             type="text"
-            name="myInput"
+            onChange={(e) => {
+              setInput(e.target.value);
+            }}
+            onKeyDown={handleKeyDownAddTask}
             placeholder="Add new Task..."
             required
           />
-        </form>
-        <Button onClick={handleAddTaskClick}>+ Save Task</Button>
-        <Button onClick={handleRemoveTaskClick}>- Remove Task</Button>
-        <Button onClick={handleClick}>Toggle Done Task</Button>
+        </div>
+        <Button onClick={handleAddTaskClick} disabled={!input}>
+          + Save Task
+        </Button>
+        <Button onClick={handleEmptyBinClick}>- Remove Task</Button>
+        <Button onClick={handleToggleDoneBinClick}>Toggle Done Task</Button>
       </div>
     </>
   );
