@@ -166,11 +166,13 @@ function App() {
             required
           />
         </div>
-        <Button onClick={handleAddTaskClick} disabled={!input}>
-          + Save Task
-        </Button>
-        <Button onClick={handleEmptyBinClick}>- Remove Task</Button>
-        <Button onClick={handleToggleDoneBinClick}>Toggle Done Task</Button>
+        <div className="flex gap-1">
+          <Button onClick={handleAddTaskClick} disabled={!input}>
+            + Save Task
+          </Button>
+          <Button onClick={handleEmptyBinClick}>- Remove Task</Button>
+          <Button onClick={handleToggleDoneBinClick}>Toggle Done Task</Button>
+        </div>
       </div>
     </>
   );

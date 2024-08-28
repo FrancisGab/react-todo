@@ -1,6 +1,10 @@
 function Button({ children, onClick, disabled }) {
   return (
-    <button className="button" onClick={onClick} disabled={disabled}>
+    <button
+      className="rounded bg-gray-800 text-white px-2 py-1"
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
