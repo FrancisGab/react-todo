@@ -90,7 +90,7 @@ function App() {
     }
   }
 
-  // // Function for toggle done for selected items.
+  // Function for toggle done for selected items.
   function handleToggleDoneBinClick() {
     for (let index = 0; index < bin.length; index++) {
       const id = bin[index];
