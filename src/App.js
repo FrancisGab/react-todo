@@ -130,7 +130,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="content-center">
       <div>
         <TodoHeader />
       </div>
@@ -139,6 +139,7 @@ function App() {
           {list.map((todoItem, index) => {
             return (
               <TodoItem
+                done={todoItem.done}
                 key={index}
                 // TODO: Can be optimized.
                 onCheckboxChange={(e) => {
@@ -174,7 +175,7 @@ function App() {
           <Button onClick={handleToggleDoneBinClick}>Toggle Done Task</Button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
